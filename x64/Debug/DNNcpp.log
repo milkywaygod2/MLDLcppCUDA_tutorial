@@ -1,0 +1,48 @@
+﻿  Compiling CUDA source file cudaKernal.cu...
+  
+  E:\_Develop\repos\MLDLcuda\DNNcpp>"E:\_Develop\cuda\CUDA\v12.3\bin\nvcc.exe" -gencode=arch=compute_52,code=\"sm_52,compute_52\" --use-local-env -ccbin "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64" -x cu   -IE:\_Develop\cuda\CUDA\v12.3\include -IE:\_Develop\cuda\CUDA\v12.3\include  -G   --keep-dir x64\Debug  -maxrregcount=0   --machine 64 --compile -cudart static  -g  -D_DEBUG -D_CONSOLE -D_UNICODE -DUNICODE -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -Xcompiler "/Fdx64\Debug\vc143.pdb" -o E:\_Develop\repos\MLDLcuda\DNNcpp\x64\Debug\cudaKernal.cu.obj "E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu" 
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(97): error : identifier "mDevice" is undefined
+            mat_ones_kernel_exec(mDevice, mDevice, cols, rows);
+                                 ^
+  
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(97): error : identifier "mat_ones_kernel_exec" is undefined
+            mat_ones_kernel_exec(mDevice, mDevice, cols, rows);
+            ^
+  
+  2 errors detected in the compilation of "E:/_Develop/repos/MLDLcuda/DNNcpp/cudaKernal.cu".
+  cudaKernal.cu
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\BuildCustomizations\CUDA 12.3.targets(799,9): error MSB3721: ""E:\_Develop\cuda\CUDA\v12.3\bin\nvcc.exe" -gencode=arch=compute_52,code=\"sm_52,compute_52\" --use-local-env -ccbin "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64" -x cu   -IE:\_Develop\cuda\CUDA\v12.3\include -IE:\_Develop\cuda\CUDA\v12.3\include  -G   --keep-dir x64\Debug  -maxrregcount=0   --machine 64 --compile -cudart static  -g  -D_DEBUG -D_CONSOLE -D_UNICODE -DUNICODE -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -Xcompiler "/Fdx64\Debug\vc143.pdb" -o E:\_Develop\repos\MLDLcuda\DNNcpp\x64\Debug\cudaKernal.cu.obj "E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu"" 명령이 종료되었습니다(코드: 2).

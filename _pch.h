@@ -11,14 +11,28 @@ S스트링
 M매트릭스(Mat)
 _인자
 
+12.3v errorC4996 next-deprecated
+pruneInfo_t
+cusparseSolvePolicy_t
+cusparseColorInfo_t
+csru2csrInfo_t
+csrilu02Info_t
+bsrsv2Info_t
+bsrilu02Info_t
+bsric02Info_t
+현재프로젝트속성-C/C++고급에서 4996제외한상태
 */
 
-//--- 
+//-- CUDA api
+#include <cuda_runtime.h>				//CUDA 런타임api
+#include <cublas_v2.h>					//Nvidia 선형대수lib
+#include <cusparse_v2.h>				//suSparse api
+#include <device_launch_parameters.h>	//커널 병렬실행모델 지원
 
-//-- CUDA
-#include <cuda_runtime.h>	//쿠다 런타임api
-#include <cublas_v2.h>		//Nvidia 선형대수lib
-#include <cusparse_v2.h>	//쿠스파스api
+
+//-- CUDA custom kernel
+#include "cudaKernel.h"
+#include "cudaIntellisense.hpp"
 
 //--- C
 #include <stdio.h>

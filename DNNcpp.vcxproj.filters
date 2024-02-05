@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\.cu">
+      <UniqueIdentifier>{c7c14bb7-eeee-4ddc-9029-1af56383366d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,5 +35,16 @@
     <ClInclude Include="cuMatSparse.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cudaKernel.h">
+      <Filter>소스 파일\.cu</Filter>
+    </ClInclude>
+    <ClInclude Include="cudaIntellisense.hpp">
+      <Filter>소스 파일\.cu</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="cudaKernal.cu">
+      <Filter>소스 파일\.cu</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>
