@@ -1,15 +1,41 @@
 #pragma once
 
+#ifndef _mat_slice_rows_kernel_
+#define _mat_slice_rows_kernel_
+    __global__ void mat_slice_rows_kernel(const float* __restrict__ _srcArr1D, float* __restrict__ _dstArr1D, int _srcArrCols, int _srcArrRows, int _startRow, int _offsetRow);
+
+    #ifdef __cplusplus
+        extern "C" {
+    #endif
+            void mat_slice_rows_kernel_exec(const float* _srcArr1D, float* _dstArr1D, int _srcArrCols, int _srcArrRows, int _startRow, int _offsetRow);
+    #ifdef __cplusplus
+        };
+    #endif
+#endif
+
+#ifndef _mat_join_rows_kernel_
+    #define _mat_join_rows_kernel_
+    __global__ void mat_join_rows_kernel(const float* __restrict__ _srcArr1D, float* __restrict__ _dstArr1D, int _srcArrCols, int _srcArrRows, int _startRow, int _offsetRow);
+
+    #ifdef __cplusplus
+        extern "C" {
+    #endif
+            void mat_join_rows_kernel_exec(const float* _srcArr1D, float* _dstArr1D, int _srcArrCols, int _srcArrRows, int _startRow, int _offsetRow);
+    #ifdef __cplusplus
+        };
+    #endif
+#endif
+
 #ifndef _mat_fill_1_kernel_
 #define _mat_fill_1_kernel_
     __global__ void mat_fill_1_kernel(const float* __restrict__ _srcArr1D, float* __restrict__ _dstArr1D, int _srcArrCols, int _srcArrRows);
 
     #ifdef __cplusplus
-    extern "C" {
+        extern "C" {
     #endif
-        void mat_fill_1_kernel_exec(const float* _srcArr1D, float* _dstArr1D, int _srcArrCols, int _srcArrRows);
+            void mat_fill_1_kernel_exec(const float* _srcArr1D, float* _dstArr1D, int _srcArrCols, int _srcArrRows);
     #ifdef __cplusplus
-    };
+        };
     #endif
 #endif
 

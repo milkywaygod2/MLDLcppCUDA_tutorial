@@ -1,7 +1,11 @@
 #pragma once
 #include "_pch.h"
 
-#define IDX_TRANSPOSE_1D(_i, _j, _leadingDimension) ((((_j))*(_leadingDimension))+((_i))) //C언어 논리배열은 행우선, cuBLAS의 논리배열은 열우선
+/*C언어 논리배열은 행우선, cuBLAS의 논리배열은 열우선
+* C언어에서 생성한 2차원 배열을 1차원 배열로 인덱싱하는 방식으로, 행렬을 전치해버림.
+* 이렇게 전치된 배열을 cuBLAS에 넘기면, 원래의 2차원 배열과 동일하게 인식하게됨*/
+#define IDX_TRANSPOSE(_i, _j, _rows) ((((_j))*(_rows))+((_i))) 
+
 #define FatalError(_string) {                                                   \
     std::stringstream _where, _message;                                         \
     /*_where << __FILE__ << ':' << __LINE__;*/                                      \
@@ -10,7 +14,7 @@
     cudaDeviceReset();                                                          \
     exit(EXIT_FAILURE);                                                         \
 }                                                                               
-/*!!!*/#define checkCUDNN(status) {                                             \
+#define checkCUDNN(status) {                                             \
     std::stringstream _error;                                                   \
     if (status != CUDNN_STATUS_SUCCESS) {                                       \
       _error << "CUDNN failure\nError: " << cudnnGetErrorString(status);        \
@@ -54,98 +58,81 @@ public:
     cublasHandle_t cudaHandle;
     float* mDeviceMemory = NULL; //GPU &Memory
     float* mHostMemory = NULL; //CPU &Memory
-    int rows = 0;
-    int cols = 0;
-    /*!!!*/vector<float> mHostArray;
+    vector<float> mHostArray; //프로세서 작업영역
+    int rows = 0; //threadPos_row
+    int cols = 0; //threadPos_col
 
 public:
-    void memMallocHost() {
+    void mallocHostMemory_t() {
         mHostMemory = (float*)malloc(rows * cols * sizeof(*mHostMemory));
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
-                mHostMemory[IDX2F(i, j, rows)] = 0.0;
+                mHostMemory[IDX_TRANSPOSE(i, j, rows)] = 0.0;
             }
         }
     }
-    void memMallocDevice() {
-        cudaError_t error = cudaMalloc((void**)&mDeviceMemory,
-            rows * cols * sizeof(*mDeviceMemory));
-        if(error != cudaSuccess) printf("cudaMemcpy error\n");
+    void mallocDeviceMemory() {
+        cudaError_t statusCuda = cudaMalloc((void**)&mDeviceMemory, rows * cols * sizeof(*mDeviceMemory));
+        if(statusCuda != cudaSuccess) printf("DeviceMemory malloc error\n");
         cudaMemset(mDeviceMemory, 0x00, rows * cols * sizeof(*mDeviceMemory));
         cudaThreadSynchronize();
+    }
+    void copyMemory_HostToDevice() {
+        if(mHostMemory == NULL) this->mallocHostMemory_t();
+        if(mDeviceMemory == NULL) this->mallocDeviceMemory();
+        cudaError_t statusCuda = cudaMemcpy(mDeviceMemory, mHostMemory, rows * cols * sizeof(*mDeviceMemory), cudaMemcpyHostToDevice);
+        if(statusCuda != cudaSuccess) printf("copyMemory_HostToDevice error\n");
+    }
+    void copyMemory_DeviceToHost() {
+        if(mDeviceMemory == NULL) this->mallocDeviceMemory();
+        if(mHostMemory == NULL) this->mallocHostMemory_t();
+        cudaError_t statusCuda = cudaMemcpy(mHostMemory, mDeviceMemory, rows * cols * sizeof(*mDeviceMemory), cudaMemcpyDeviceToHost);
+        if(statusCuda != cudaSuccess) printf("copyMemory_DeviceToHost error\n");
+    }
+    void setHostMemory_a(int _i, int _j, float _a) {
+        if(mHostMemory == NULL) this->mallocHostMemory_t();
+        mHostMemory[IDX_TRANSPOSE(_i, _j, rows)] = _a;
+    }
+    void setHostMemory_B(float* _pB) {
+        if(mHostMemory == NULL) this->mallocHostMemory_t();
+        if(mDeviceMemory == NULL) cout << "setHostMemory_B : mDeviceMemory is null" << endl;
 
+        cudaError_t statusCuda = cudaMemcpy(mDeviceMemory, _pB, rows * cols * sizeof(*mDeviceMemory), cudaMemcpyHostToDevice);
+        if(statusCuda != cudaSuccess) printf("setHostMemory_B : cudaMemcpy error\n");
     }
-    void memHostToDevice() {
-        cudaError_t error = cudaMemcpy(mDeviceMemory, mHostMemory,
-            rows * cols * sizeof(*mDeviceMemory), cudaMemcpyHostToDevice);
-        if(error != cudaSuccess) printf("memHostToDevice cudaMemcpy error\n");
+    void setDeviceMemory_B(float* _pB) {
+        cudaError_t statusCuda = cudaMemcpy(mDeviceMemory, _pB, rows * cols * sizeof(*mDeviceMemory), cudaMemcpyDeviceToDevice);
+        if(statusCuda != cudaSuccess) printf("setDeviceMemory_B : cudaMemcpy error\n");
     }
-    void memDeviceToHost() {
-        if(mHostMemory == NULL) this->memMallocHost();
-        cudaError_t error = cudaMemcpy(mHostMemory, mDeviceMemory,
-            rows * cols * sizeof(*mDeviceMemory), cudaMemcpyDeviceToHost);
-        if(error != cudaSuccess)
-            printf("memDeviceToHost cudaMemcpy error\n");
+    void setDeviceMemory_row(float* _pRow, int row_index) {
+        cudaError_t statusCuda = cudaMemcpy(mDeviceMemory + row_index * cols, _pRow, cols * sizeof(float), cudaMemcpyDeviceToDevice);
+        if(statusCuda != cudaSuccess) printf("setDeviceMemory_B_row : cudaMemcpy error\n");
     }
-    void memSetHost(int i, int j, float val) {
-        if(mHostMemory == NULL)
-            this->memMallocHost();
-
-        mHostMemory[IDX2F(i, j, rows)] = val;
+    void setDeviceMemory_col(float* _pCol, int col_index) {
+        cudaError_t statusCuda = cudaMemcpy(mDeviceMemory + col_index * rows, _pCol, rows * sizeof(float), cudaMemcpyDeviceToDevice);
+        if(statusCuda != cudaSuccess) printf("setDeviceMemory_B_col : cudaMemcpy error\n");
     }
-    void memSetHost(float* v) {
-        if(mHostMemory == NULL)
-            this->memMallocHost();
-        if(mDeviceMemory == NULL)
-            cout << "memSetHost mDeviceMemory is null" << endl;
-
-        cudaError_t error = cudaMemcpy(mDeviceMemory, v,
-            rows * cols * sizeof(*mDeviceMemory), cudaMemcpyHostToDevice);
-        if(error != cudaSuccess)
-            printf("memSetHost cudaMemcpy error\n");
-    }
-    void memSetDevice(float* v) {
-        cudaError_t error = cudaMemcpy(mDeviceMemory, v,
-            rows * cols * sizeof(*mDeviceMemory), cudaMemcpyDeviceToDevice);
-        if(error != cudaSuccess)
-            printf("memSetDevice cudaMemcpy error\n");
-    }
-    void memSetDeviceRow(float* v, int row_index) {
-        cudaError_t error = cudaMemcpy(mDeviceMemory + row_index * cols, v,
-            cols * sizeof(float), cudaMemcpyDeviceToDevice);
-        if(error != cudaSuccess)
-            printf("memSetDeviceRow cudaMemcpy error\n");
-    }
-    void memSetDeviceCol(float* v, int col_index) {
-        cudaError_t error = cudaMemcpy(mDeviceMemory + col_index * rows, v,
-            rows * sizeof(float), cudaMemcpyDeviceToDevice);
-        if(error != cudaSuccess)
-            printf("memSetDeviceCol cudaMemcpy error\n");
-    }
-    void toHostArray() {
-        //cout << "toHostArray" << endl;
-        if(mHostMemory == NULL) this->memMallocHost();
-        memDeviceToHost();
-
+    void getHostArray_fromDeviceMemory() {
+        copyMemory_DeviceToHost();
         mHostArray.resize(rows * cols);
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
-                mHostArray[IDX2F(i, j, rows)] = mHostMemory[IDX2F(i, j, rows)];
+                //mHostArray[IDX_TRANSPOSE(i, j, rows)] = mHostMemory[IDX_TRANSPOSE(i, j, rows)];
+                mHostArray[i * cols + j] = mHostMemory[IDX_TRANSPOSE(i, j, rows)]; //이게 맞을 것 같은데.
             }
         }
     }
-    void fromHostArray() {
-        if(mDeviceMemory == NULL) this->memMallocDevice();
-        if(mHostMemory == NULL) this->memMallocHost();
+    void getDeviceMemory_fromHostArray() {
+        if(mHostMemory == NULL) this->mallocHostMemory_t();
+        if(mDeviceMemory == NULL) this->mallocDeviceMemory();
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
-                mHostMemory[IDX2F(i, j, rows)] = mHostArray[IDX2F(i, j, rows)];
+                //mHostMemory[IDX_TRANSPOSE(i, j, rows)] = mHostArray[IDX_TRANSPOSE(i, j, rows)];
+                mHostMemory[i * cols + j] = mHostArray[IDX_TRANSPOSE(i, j, rows)]; //이게 맞을 것 같은데.
             }
         }
-
-        memHostToDevice();
+        copyMemory_HostToDevice();
     }
-
 
     void new_matrix(int _rows, int _cols) {
         cout << "new_matrix : 필요시 새 매트릭스 생성.." << endl;
@@ -180,29 +167,18 @@ public:
     }
     int getRows() { return this->rows; }
     int getCols() { return this->cols; }
-    friend void printRows(ostream& output, cuMat& a, int i) {
-        output << "[";
-        if(a.cols < 11) {
-            for(int j = 0; j < a.cols; j++)  output << a.mHostMemory[IDX2F(i, j, a.rows)] << " ";
+    friend void printRows(ostream& _output, const cuMat& _A, int _targetRow) { //mHostMemory에 접근하기위한 friends
+        _output << "[";
+        if(_A.cols < 11) { //10개 이하면 전부 보여주고, 그이상이면 너무 많으니까 앞에3개 뒤에2개만 보여줌
+            for(int j = 0; j < _A.cols; j++)  _output << _A.mHostMemory[IDX_TRANSPOSE(_targetRow, j, _A.rows)] << " ";
         } else {
-            for(int j = 0; j < 3; j++)  output << a.mHostMemory[IDX2F(i, j, a.rows)] << " ";
+            for(int j = 0; j < 3; j++)  _output << _A.mHostMemory[IDX_TRANSPOSE(_targetRow, j, _A.rows)] << " ";
             cout << "..., ";
-            for(int j = a.cols - 2; j < a.cols; j++)  output << a.mHostMemory[IDX2F(i, j, a.rows)] << " ";
+            for(int j = _A.cols - 2; j < _A.cols; j++)  _output << _A.mHostMemory[IDX_TRANSPOSE(_targetRow, j, _A.rows)] << " ";
         }
-        output << "]";
+        _output << "]";
     }
-    cuMat sliceRows(int offset, int len) {
-        cuMat r(len, this->cols);
-
-        slice_rows_kernel_exec(mDeviceMemory, r.mDeviceMemory, cols, rows, offset, len);
-
-        return r;
-    }
-    void joinRows(cuMat& a, int offset, int len) {
-        join_rows_kernel_exec(a.mDeviceMemory, mDeviceMemory, cols, rows, offset, len);
-    }
-
-
+    
     void fill_1() {
         mat_fill_1_kernel_exec(mDeviceMemory, mDeviceMemory, cols, rows);
     }
@@ -241,6 +217,14 @@ public:
         cudaError_t error = cudaMemcpy(mDeviceMemory, _B.mDeviceMemory, rows * cols * sizeof(*mDeviceMemory), cudaMemcpyDeviceToDevice);
         if(error != cudaSuccess) printf("cudaMemcpy error\n");
     }
+    cuMat copy_from_A_rows(int _startRow, int _offsetRow) {
+        cuMat R(_offsetRow, this->cols);
+        mat_slice_rows_kernel_exec(mDeviceMemory, R.mDeviceMemory, cols, rows, _startRow, _offsetRow);
+        return R;
+    }
+    void paste_from_B_rows(const cuMat& _B, int _startRow, int _offsetRow) {
+        mat_join_rows_kernel_exec(_B.mDeviceMemory, mDeviceMemory, cols, rows, _startRow, _offsetRow);
+    }
 
     /* 연산기호로 오버로딩하지않고 맴버함수화 하는 이유 : 행렬연산은 순서가 중요하기때문에. 
      * C = aA+bB 구조에서 A를 중심으로 모든것을 함수화할 뿐만아니라, 실상 2차원평면위의 한 직선임으로 선형조합을 계산하는 문제임 
@@ -249,7 +233,7 @@ public:
      * cublasSgemm() : C = aA * B + cC
      * 
      */
-    void A_plus_B(const cuMat & _B, cuMat & _R) {
+    void A_plus_B(const cuMat& _B, cuMat& _R) {
         float a = 1, b = 1; //스칼라
         cublasStatus_t status = cublasSgeam(_R.cudaHandle,
                                                 CUBLAS_OP_N, CUBLAS_OP_N, //N은 그대로, T는 전치(행과열을 바꾸는것)
@@ -353,9 +337,9 @@ public:
         cudaDeviceSynchronize();
     }
     cuMat A_dot_B(const cuMat& _B) { //A·B, return값자체가 cuMat이므로 dotEqual과는 다름!
-        cuMat C(this->rows, _B.cols);
-        A_dot_B(_B, C);
-        return C;
+        cuMat R(this->rows, _B.cols);
+        A_dot_B(_B, R);
+        return R;
     }
     void A_dot_B_plus_C(const cuMat& _B, cuMat& _R) { // C += A·B
         float a = 1, c = 1;
@@ -412,61 +396,49 @@ public:
 
 public: //오퍼레이터
     cuMat& operator=(const cuMat& _B) {
-        new_matrix(_B.rows, _B.cols);
-
-        cudaError_t error = cudaMemcpy(mDeviceMemory, _B.mDeviceMemory,
-            rows * cols * sizeof(*mDeviceMemory), cudaMemcpyDeviceToDevice);
-        if(error != cudaSuccess)
-            printf("cuMat operator= cudaMemcpy error\n");
-
+        this->new_matrix(_B.rows, _B.cols);
+        cudaError_t statusCuda = cudaMemcpy(mDeviceMemory, _B.mDeviceMemory, rows * cols * sizeof(*mDeviceMemory), cudaMemcpyDeviceToDevice);
+        if(statusCuda != cudaSuccess) printf("cuMat operator= cudaMemcpy error\n");
         return *this;
     }
     float operator()(int _i, int _j) {
-        if(mHostMemory == NULL)
-            this->memMallocHost();
-
-        this->memDeviceToHost();
-
-        return mHostMemory[IDX_TRANSPOSE_1D(_i, _j, rows)];
-
+        if(mHostMemory == NULL) this->mallocHostMemory_t();
+        cudaError_t statusCuda = cudaMemcpy2D(&mHostMemory[IDX_TRANSPOSE(_i,_j,rows)],sizeof(float), //전체복사는 너무 과함 ps.cudaMemcpy()
+                                            &mDeviceMemory[IDX_TRANSPOSE(_i, _j, rows)], cols * sizeof(float), 
+                                            sizeof(float), 1, cudaMemcpyDeviceToHost); //복사할 열의 바이트수, 복사할 행의 수, 복사방향
+        if(statusCuda != cudaSuccess) printf("cuMat operator= cudaMemcpy error\n");
+        return mHostMemory[IDX_TRANSPOSE(_i, _j, rows)];
     }
-    friend ostream& operator<<(ostream& _output, cuMat& _B) {
-
-        if(_B.mDeviceMemory == NULL) {
+    friend ostream& operator<<(ostream& _output, cuMat& _A) {
+        if(_A.mDeviceMemory == NULL) {
             printf("cuMat operator<< _B.mDeviceMemory is NULL\n");
-            if(_B.mHostMemory == NULL) {
-                printf("also cuMat operator<< _B.mHostMemory is NULL\n");
-            }
+            if(_A.mHostMemory == NULL) { printf("also cuMat operator<< _B.mHostMemory is NULL\n"); }
         }
-        if(_B.mHostMemory == NULL) _B.memMallocHost();
+        if(_A.mHostMemory == NULL) _A.mallocHostMemory_t(); //추가
+        if(_A.mDeviceMemory == NULL) _A.mallocDeviceMemory();
+        cudaError_t statusCuda = cudaMemcpy(_A.mHostMemory, _A.mDeviceMemory, _A.rows * _A.cols * sizeof(*_A.mDeviceMemory), cudaMemcpyDeviceToHost);
+        if(statusCuda != cudaSuccess) printf("cuMat operator<< cudaMemcpy error\n");
 
-
-        cudaError_t error = cudaMemcpy(_B.mHostMemory, _B.mDeviceMemory,
-            _B.rows * _B.cols * sizeof(*_B.mDeviceMemory), cudaMemcpyDeviceToHost);
-        if(error != cudaSuccess)
-            printf("cuMat operator<< cudaMemcpy error\n");
-
-        _output << "matrix rows:" << _B.rows << " cols:" << _B.cols << endl;
+        _output << "matrix rows:" << _A.rows << " cols:" << _A.cols << endl;
         _output << "[";
-        if(_B.rows < 11) {
-            for(int i = 0; i < _B.rows; i++) {
-                printRows(_output, _B, i);
-                if(i != _B.rows - 1) _output << endl;
+        if(_A.rows < 11) {
+            for(int targetRow = 0; targetRow < _A.rows; targetRow++) {
+                printRows(_output, _A, targetRow);
+                if(targetRow != _A.rows - 1) _output << endl;
                 else _output << "]" << endl;
             }
         } else {
-            for(int i = 0; i < 5; i++) {
-                printRows(_output, _B, i);
+            for(int targetRow = 0; targetRow < 5; targetRow++) {
+                printRows(_output, _A, targetRow);
                 _output << endl;
             }
             _output << "...," << endl;
-            for(int i = _B.rows - 5; i < _B.rows; i++) {
-                printRows(_output, _B, i);
-                if(i != _B.rows - 1) _output << endl;
+            for(int targetRow = _A.rows - 5; targetRow < _A.rows; targetRow++) {
+                printRows(_output, _A, targetRow);
+                if(targetRow != _A.rows - 1) _output << endl;
                 else _output << "]" << endl;
             }
         }
-
         return _output;
     }
     friend cuMat operator+(const cuMat& _A, const cuMat& _B) {

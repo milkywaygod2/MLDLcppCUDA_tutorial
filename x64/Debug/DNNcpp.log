@@ -73,7 +73,7 @@ E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 
 E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\filesystem(12): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
   cudaKernal.cu
-  tmpxft_00029648_00000000-7_cudaKernal.cudafe1.cpp
+  tmpxft_0000b1b8_00000000-7_cudaKernal.cudafe1.cpp
 E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
 E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
 E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
@@ -288,12 +288,16 @@ E:\_Develop\cuda\CUDA\v12.3\include\cusparse.h(4848): warning C4996: 'pruneInfo_
 E:\_Develop\cuda\CUDA\v12.3\include\cusparse.h(4868): warning C4996: 'pruneInfo_t': The type will be removed in the next major release
 E:\_Develop\cuda\CUDA\v12.3\include\cusparse.h(4886): warning C4996: 'pruneInfo_t': The type will be removed in the next major release
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\filesystem(12): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
-E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(105): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(110): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(18): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
-E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(85): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
-E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(102): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
-E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(118): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(78): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(191): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(197): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(486): warning C4244: '인수': 'double'에서 'const float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(25): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(48): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(64): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(135): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(152): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cudaKernal.cu(169): warning C4996: 'cudaThreadSynchronize': deprecated로 선언되었습니다.
   main.cpp
 E:\_Develop\cuda\CUDA\v12.3\include\driver_types.h(1325,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
   (소스 파일 'main.cpp'을(를) 컴파일하는 중)
@@ -332,10 +336,13 @@ E:\_Develop\cuda\CUDA\v12.3\include\cuda_runtime_api.h(11766,1): warning C4819: 
   (소스 파일 'main.cpp'을(를) 컴파일하는 중)
   
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\filesystem(12): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
-E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(105,28): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(191,28): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
   (소스 파일 'main.cpp'을(를) 컴파일하는 중)
   
-E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(110,30): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(197,30): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+E:\_Develop\repos\MLDLcuda\DNNcpp\cuMat.h(486,23): warning C4244: '인수': 'double'에서 'const float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 'main.cpp'을(를) 컴파일하는 중)
   
   DNNcpp.vcxproj -> E:\_Develop\repos\MLDLcuda\x64\Debug\DNNcpp.exe
