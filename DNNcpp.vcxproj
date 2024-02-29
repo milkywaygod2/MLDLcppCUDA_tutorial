@@ -148,6 +148,7 @@
     <ClInclude Include="cuMat.h" />
     <ClInclude Include="cuMatSparse.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="perceptron.h" />
     <ClInclude Include="_pch.h" />
   </ItemGroup>
   <ItemGroup>

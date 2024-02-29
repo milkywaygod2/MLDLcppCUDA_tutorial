@@ -67,6 +67,7 @@ using namespace std;
 
 //--- My
 #include "main.h"
+#include "perceptron.h"
 #include "cuMat.h"
 #include "cuMatSparse.h"
 
